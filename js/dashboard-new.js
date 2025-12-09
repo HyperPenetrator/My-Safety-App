@@ -369,12 +369,49 @@ async function requestContactsPermission() {
     const btn = document.getElementById('requestContactsBtn');
     const statusBadge = document.querySelector('#contactsPermStatus .status-badge');
 
-    // Note: Contacts API is not widely supported yet
-    // This is a placeholder for future implementation
-    showToast('Contacts API is not yet widely supported. Please add contacts manually.', 'info');
+    btn.disabled = true;
+    btn.textContent = 'Importing...';
 
-    statusBadge.textContent = 'Not Available';
-    statusBadge.className = 'status-badge pending';
+    if (contactsManager.isSupported()) {
+        const result = await contactsManager.selectContacts();
+
+        if (result.success) {
+            // Add imported contacts
+            for (const contact of result.contacts) {
+                if (emergencyContacts.length >= 5) break;
+
+                emergencyContacts.push({
+                    id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+                    name: contact.name,
+                    phone: contact.phone,
+                    relation: 'Imported',
+                    email: '',
+                    addedAt: new Date().toISOString()
+                });
+            }
+
+            await saveEmergencyContacts();
+            renderEmergencyContacts();
+
+            showToast(`Successfully imported ${result.contacts.length} contacts`, 'success');
+
+            statusBadge.textContent = 'Granted';
+            statusBadge.className = 'status-badge granted';
+            btn.textContent = 'Import More';
+        } else {
+            if (result.error !== 'cancelled') {
+                showToast('Error importing contacts: ' + result.error, 'error');
+            }
+            btn.textContent = 'Import Contacts';
+        }
+    } else {
+        showToast('Contact Import is not supported on this device. Please add manually.', 'info');
+        statusBadge.textContent = 'Manual Only';
+        statusBadge.className = 'status-badge optional';
+        btn.textContent = 'Not Supported';
+    }
+
+    btn.disabled = false;
 }
 
 // ===================================
