@@ -1,0 +1,158 @@
+/* ===================================
+   PERMISSION SYSTEM STYLES
+   =================================== */
+
+/* Permission Card States */
+.permission-card.granted {
+    border-left: 4px solid #4CAF50;
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(76, 175, 80, 0.02) 100%);
+}
+
+.permission-card.denied {
+    border-left: 4px solid #f44336;
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.05) 0%, rgba(244, 67, 54, 0.02) 100%);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.granted {
+    background: #4CAF50;
+    color: white;
+}
+
+.status-badge.denied {
+    background: #f44336;
+    color: white;
+}
+
+.status-badge.pending {
+    background: #ff9800;
+    color: white;
+}
+
+.status-badge.optional {
+    background: #9e9e9e;
+    color: white;
+}
+
+/* Permission Buttons */
+.perm-btn {
+    padding: 0.875rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.perm-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.perm-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.perm-btn.granted {
+    background: #4CAF50;
+    cursor: default;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.perm-btn.denied {
+    background: #f44336;
+    cursor: not-allowed;
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.perm-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Permission Info Display */
+.location-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 10px;
+    border-left: 3px solid #4CAF50;
+}
+
+.location-info p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.location-info strong {
+    color: #667eea;
+}
+
+/* Notification Permission Card */
+.notification-permission-card {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 10px;
+    border: 2px dashed #667eea;
+}
+
+.notification-permission-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #667eea;
+    font-size: 1rem;
+}
+
+.notification-permission-card p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+/* Permission Request Animation */
+@keyframes permissionRequest {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.perm-btn.requesting {
+    animation: permissionRequest 0.5s ease infinite;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .perm-btn {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .permission-card {
+        padding: 1rem;
+    }
+}
