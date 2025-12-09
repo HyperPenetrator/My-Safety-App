@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#667eea">
+    <title>My Safety - Mobile</title>
+    <meta name="description" content="My Safety Mobile - Quick access to emergency features">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/mobile-dashboard.css">
+    <link rel="stylesheet" href="css/emergency-calls.css">
+    <link rel="stylesheet" href="css/permissions.css">
+</head>
+
+<body>
+    <!-- Compact Header -->
+    <header class="mobile-header">
+        <div class="header-content">
+            <div class="logo">🛡️</div>
+            <h1>My <span>Safety</span></h1>
+            <button class="menu-btn" id="menuBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="3" y1="12" x2="21" y2="12" stroke-width="2" />
+                    <line x1="3" y1="6" x2="21" y2="6" stroke-width="2" />
+                    <line x1="3" y1="18" x2="21" y2="18" stroke-width="2" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="mobile-main">
+        <!-- Emergency SOS Button -->
+        <div class="sos-section">
+            <button class="sos-button" id="sosButton">
+                <div class="sos-icon">🚨</div>
+                <div class="sos-text">
+                    <h2>EMERGENCY SOS</h2>
+                    <p>Hold for 3 seconds</p>
+                </div>
+            </button>
+        </div>
+
+        <!-- Quick Call Contacts -->
+        <div class="quick-contacts" id="quickContacts">
+            <h3>Quick Call</h3>
+            <div class="contacts-grid" id="contactsGrid">
+                <div class="empty-contacts">
+                    <p>No emergency contacts added</p>
+                    <button class="add-contact-btn" onclick="showSection('contacts')">Add Contacts</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Safety Status -->
+        <div class="safety-status">
+            <div class="status-card">
+                <div class="status-icon">🛡️</div>
+                <div class="status-info">
+                    <h4>Safety Mode</h4>
+                    <p id="safetyStatus">Inactive</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="safetyToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="action-card" onclick="showSection('permissions')">
+                <div class="action-icon">🔒</div>
+                <div class="action-text">
+                    <h4>Permissions</h4>
+                    <p id="permissionCount">0/4 granted</p>
+                </div>
+            </button>
+
+            <button class="action-card" onclick="showSection('location')">
+                <div class="action-icon">📍</div>
+                <div class="action-text">
+                    <h4>Location</h4>
+                    <p id="locationStatus">Not set</p>
+                </div>
+            </button>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-section="home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke-width="2" />
+            </svg>
+            <span>Home</span>
+        </button>
+
+        <button class="nav-item" data-section="contacts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="2" />
+                <circle cx="9" cy="7" r="4" stroke-width="2" />
+            </svg>
+            <span>Contacts</span>
+        </button>
+
+        <button class="nav-item" data-section="safety">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-width="2" />
+            </svg>
+            <span>Safety</span>
+        </button>
+
+        <button class="nav-item" data-section="profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10" stroke-width="2" />
+                <circle cx="12" cy="10" r="3" stroke-width="2" />
+                <path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.834 2.855" stroke-width="2" />
+            </svg>
+            <span>Profile</span>
+        </button>
+    </nav>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <h3>Menu</h3>
+            <button class="close-menu" id="closeMenu">✕</button>
+        </div>
+        <div class="menu-content">
+            <button class="menu-item" onclick="switchToDesktop()">
+                <span>🖥️</span>
+                Switch to Desktop View
+            </button>
+            <button class="menu-item" onclick="showSettings()">
+                <span>⚙️</span>
+                Settings
+            </button>
+            <button class="menu-item" onclick="logout()">
+                <span>🚪</span>
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+    <!-- Mobile Dashboard Logic -->
+    <script src="js/mobile-dashboard.js"></script>
+    <!-- Emergency Call System -->
+    <script src="js/emergency-calls.js"></script>
+    <!-- Permission Management -->
+    <script src="js/permissions.js"></script>
+</body>
+
+</html>
