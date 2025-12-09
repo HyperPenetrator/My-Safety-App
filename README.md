@@ -1,7 +1,7 @@
 # 📚 My Safety App - Complete Documentation Index
 
 ## 🚀 START HERE: Deployment Guides
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/536df11d-2485-4f2a-b9c4-42e04c10bbc6/deploy-status)](https://app.netlify.com/projects/my-safety-codecraft/deploys)
 ### For Broke Boiz (100% FREE Deployment)
 
 1. **QUICK_START.md** ⭐ **START HERE!**
