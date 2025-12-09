@@ -3,20 +3,155 @@
 
 <head>
     <meta charset='UTF-8'>
-    <title>My Safety - Login</title>
-    <link rel='stylesheet' href='css/style.css'>
-    <script src='https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js'></script>
-    <script src='https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js'></script>
-    <script src='firebase-config.js'></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Safety - Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .welcome-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .highlight {
+            color: #ffd700;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .features {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .loading {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
 </head>
 
 <body>
-    <div class='login-container'>
-        <h1>My Safety</h1><input type='tel' id='phoneNumber' placeholder='Enter Phone Number'>
-        <div id='recaptcha-container'></div><button id='sendOtpBtn'>Send OTP</button><input type='text' id='otp'
-            placeholder='Enter OTP'><button id='verifyOtpBtn'>Verify OTP</button>
+    <div class="welcome-container">
+        <div class="logo">🛡️</div>
+        <h1>My <span class="highlight">Safety</span></h1>
+        <p>Your Personal Safety Companion</p>
+
+        <a href="auth.html" class="cta-button">Get Started</a>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📍</div>
+                <h3>Location Tracking</h3>
+                <p>Real-time monitoring</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎤</div>
+                <h3>Voice Commands</h3>
+                <p>21 languages supported</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🚨</div>
+                <h3>Emergency Alerts</h3>
+                <p>Instant notifications</p>
+            </div>
+        </div>
+
+        <p class="loading">Redirecting to authentication...</p>
     </div>
-    <script src='js/login.js'></script>
+
+    <script>
+        // Auto-redirect to auth page after 2 seconds
+        setTimeout(() => {
+            window.location.href = 'auth.html';
+        }, 2000);
+    </script>
 </body>
 
 </html>
