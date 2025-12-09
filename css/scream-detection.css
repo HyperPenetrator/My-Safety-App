@@ -1,0 +1,365 @@
+/* ===================================
+   SCREAM DETECTION STYLES
+   ================================== */
+
+/* Scream Alert Banner */
+.scream-alert-banner {
+    position: fixed;
+    top: calc(var(--navbar-height) + var(--spacing-md));
+    right: var(--spacing-lg);
+    z-index: 999;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    animation: slideInRight 0.3s ease-out;
+    max-width: 400px;
+}
+
+.scream-alert-banner .alert-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.scream-alert-banner .alert-icon {
+    font-size: 2rem;
+    animation: pulse 1s infinite;
+}
+
+.scream-alert-banner .alert-text strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.scream-alert-banner .alert-text p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Scream Emergency Modal */
+.modal-content.emergency-activation .scream-details {
+    background: rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin: var(--spacing-lg) 0;
+    text-align: left;
+}
+
+.modal-content.emergency-activation .scream-details p {
+    margin: var(--spacing-sm) 0;
+    font-size: 0.95rem;
+}
+
+.modal-content.emergency-activation .scream-details strong {
+    color: var(--primary-color);
+    margin-right: var(--spacing-sm);
+}
+
+/* Scream Detection Status Indicator */
+.scream-detection-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: rgba(67, 233, 123, 0.1);
+    border: 1px solid rgba(67, 233, 123, 0.3);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #43e97b;
+}
+
+.scream-detection-indicator.listening {
+    background: rgba(79, 172, 254, 0.1);
+    border-color: rgba(79, 172, 254, 0.3);
+    color: #4facfe;
+}
+
+.scream-detection-indicator .pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* Scream Detection Card */
+.scream-detection-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+}
+
+.scream-detection-card .detection-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+.scream-detection-card .detection-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.scream-detection-card .detection-info h3 {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: 1.1rem;
+}
+
+.scream-detection-card .detection-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.scream-detection-card .detection-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+.scream-detection-card .stat-item {
+    text-align: center;
+}
+
+.scream-detection-card .stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.scream-detection-card .stat-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Scream Detection Settings */
+.scream-settings {
+    background: rgba(255, 255, 255, 0.02);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-lg);
+}
+
+.scream-settings h4 {
+    margin: 0 0 var(--spacing-md) 0;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.scream-settings .setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.scream-settings .setting-item:last-child {
+    border-bottom: none;
+}
+
+.scream-settings .setting-label {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.scream-settings .setting-description {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-xs);
+}
+
+.scream-settings .setting-control {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.scream-settings input[type="range"] {
+    width: 150px;
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.scream-settings input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.scream-settings input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+.scream-settings .setting-value {
+    min-width: 50px;
+    text-align: right;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Audio Visualizer */
+.audio-visualizer {
+    width: 100%;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.audio-visualizer canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.audio-visualizer .visualizer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+/* Threat Level Indicator */
+.threat-level-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-md);
+}
+
+.threat-level-indicator .level-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.threat-level-indicator .level-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #43e97b 0%, #ff6b6b 100%);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.threat-level-indicator .level-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: right;
+}
+
+.threat-level-indicator.low .level-label {
+    color: #43e97b;
+}
+
+.threat-level-indicator.medium .level-label {
+    color: #ffd93d;
+}
+
+.threat-level-indicator.high .level-label {
+    color: #ff6b6b;
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .scream-alert-banner {
+        right: var(--spacing-md);
+        left: var(--spacing-md);
+        max-width: none;
+    }
+
+    .scream-detection-card .detection-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .scream-settings input[type="range"] {
+        width: 100px;
+    }
+}
+
+/* Dark Mode Adjustments */
+@media (prefers-color-scheme: dark) {
+    .scream-detection-card {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .scream-settings {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .audio-visualizer {
+        background: rgba(0, 0, 0, 0.4);
+    }
+}

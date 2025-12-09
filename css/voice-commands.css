@@ -1,0 +1,500 @@
+/* ===================================
+   VOICE COMMANDS STYLING
+   =================================== */
+
+/* Voice Alert Banner */
+.voice-alert-banner {
+    position: fixed;
+    top: calc(var(--navbar-height) + var(--spacing-md));
+    right: var(--spacing-lg);
+    z-index: 999;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+    animation: slideInRight 0.3s ease, pulse-glow 2s infinite;
+    min-width: 300px;
+    max-width: 400px;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 8px 48px rgba(102, 126, 234, 0.8);
+    }
+}
+
+.alert-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.alert-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.alert-text {
+    flex: 1;
+}
+
+.alert-text strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    color: white;
+}
+
+.alert-text p {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+/* Emergency Activation Modal */
+.modal-content.emergency-activation {
+    max-width: 500px;
+}
+
+.emergency-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--spacing-lg);
+    background: linear-gradient(135deg, #f5576c, #f093fb);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emergency-icon.pulsing {
+    animation: emergency-pulse 1s infinite;
+}
+
+@keyframes emergency-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 87, 108, 0.7);
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 20px rgba(245, 87, 108, 0);
+    }
+}
+
+.emergency-icon svg {
+    width: 50px;
+    height: 50px;
+    color: white;
+}
+
+.countdown-display {
+    margin: var(--spacing-xl) 0;
+    text-align: center;
+}
+
+.countdown-number {
+    font-size: 5rem;
+    font-weight: 800;
+    font-family: var(--font-display);
+    background: var(--secondary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: var(--spacing-sm);
+}
+
+.countdown-display p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+}
+
+.emergency-message {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    margin-top: var(--spacing-md);
+}
+
+.cancel-btn.large {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 1.125rem;
+}
+
+/* Voice Command Settings Card */
+.voice-settings-card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+}
+
+.voice-settings-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.voice-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voice-icon svg {
+    width: 26px;
+    height: 26px;
+    color: white;
+}
+
+.voice-info {
+    flex: 1;
+}
+
+.voice-info h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.voice-info p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Listening Indicator */
+.listening-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(67, 233, 123, 0.1);
+    border: 1px solid rgba(67, 233, 123, 0.3);
+    border-radius: var(--radius-sm);
+    color: #43e97b;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.listening-pulse {
+    width: 10px;
+    height: 10px;
+    background: #43e97b;
+    border-radius: 50%;
+    animation: pulse-animation 1.5s infinite;
+}
+
+/* Language Selector */
+.language-selector {
+    margin-top: var(--spacing-lg);
+}
+
+.language-selector label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.language-select {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.language-select:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.language-select option {
+    background: #1a1a1a;
+    color: var(--text-primary);
+    padding: var(--spacing-sm);
+}
+
+/* Keywords Display */
+.keywords-display {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: var(--radius-md);
+}
+
+.keywords-display h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: #667eea;
+}
+
+.keywords-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+}
+
+.keyword-badge {
+    padding: 0.25rem 0.75rem;
+    background: rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    color: #667eea;
+    font-weight: 500;
+}
+
+/* Voice Status Indicator */
+.voice-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-top: var(--spacing-md);
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+
+.status-dot.active {
+    background: #43e97b;
+    animation: pulse-animation 2s infinite;
+}
+
+.status-dot.listening {
+    background: #4facfe;
+    animation: pulse-animation 1s infinite;
+}
+
+.voice-status-text {
+    flex: 1;
+}
+
+.voice-status-text strong {
+    display: block;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+}
+
+.voice-status-text small {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+/* Info Box for Voice Commands */
+.voice-info-box {
+    background: rgba(79, 172, 254, 0.1);
+    border: 1px solid rgba(79, 172, 254, 0.3);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.voice-info-box h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: #4facfe;
+}
+
+.voice-info-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.voice-info-box li {
+    padding: var(--spacing-xs) 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+}
+
+.voice-info-box li::before {
+    content: '✓';
+    color: #43e97b;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* Emergency Contact Alert List */
+.emergency-contacts-alert {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: rgba(245, 87, 108, 0.1);
+    border: 1px solid rgba(245, 87, 108, 0.3);
+    border-radius: var(--radius-md);
+}
+
+.emergency-contacts-alert h4 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: #f5576c;
+}
+
+.contact-alert-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.contact-alert-item:last-child {
+    margin-bottom: 0;
+}
+
+.contact-alert-icon {
+    width: 30px;
+    height: 30px;
+    background: var(--secondary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+.contact-alert-info {
+    flex: 1;
+}
+
+.contact-alert-info strong {
+    display: block;
+    font-size: 0.875rem;
+}
+
+.contact-alert-info small {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .voice-alert-banner {
+        right: var(--spacing-md);
+        left: var(--spacing-md);
+        min-width: auto;
+    }
+
+    .countdown-number {
+        font-size: 4rem;
+    }
+}
+
+/* Animation for voice wave */
+@keyframes voice-wave {
+
+    0%,
+    100% {
+        transform: scaleY(0.5);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+.voice-wave {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 20px;
+}
+
+.voice-wave span {
+    width: 3px;
+    height: 100%;
+    background: #667eea;
+    border-radius: 2px;
+    animation: voice-wave 1s ease-in-out infinite;
+}
+
+.voice-wave span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.voice-wave span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.voice-wave span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.voice-wave span:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.voice-wave span:nth-child(5) {
+    animation-delay: 0.4s;
+}

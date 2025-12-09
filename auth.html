@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Safety - Secure Authentication</title>
+    <meta name="description"
+        content="Sign in to My Safety - Your personal safety companion. Secure authentication with Google.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="auth-container">
+        <!-- Left Side - Branding -->
+        <div class="branding-section">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L3 7V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V7L12 2Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h1 class="brand-name">My <span class="brand-highlight">Safety</span></h1>
+            </div>
+
+            <div class="branding-content">
+                <h2 class="tagline">Your Personal Safety Companion</h2>
+                <p class="description">Stay protected with real-time alerts, emergency contacts, and voice-activated
+                    safety features.</p>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-text">
+                            <h3>24/7 Protection</h3>
+                            <p>Always-on safety monitoring</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎤</div>
+                        <div class="feature-text">
+                            <h3>Voice Commands</h3>
+                            <p>Hands-free emergency activation</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📍</div>
+                        <div class="feature-text">
+                            <h3>Location Sharing</h3>
+                            <p>Share your location with trusted contacts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Authentication Form -->
+        <div class="form-section">
+            <div class="form-container">
+                <!-- Toggle Buttons -->
+                <div class="auth-toggle">
+                    <button class="toggle-btn active" id="loginToggle">Sign In</button>
+                    <button class="toggle-btn" id="registerToggle">Sign Up</button>
+                    <div class="toggle-slider"></div>
+                </div>
+
+                <!-- Login Form -->
+                <div class="auth-form" id="loginForm">
+                    <div class="form-header">
+                        <h2>Welcome Back!</h2>
+                        <p>Sign in to access your safety dashboard</p>
+                    </div>
+
+                    <div class="social-auth">
+                        <button class="google-btn" id="googleSignInBtn">
+                            <svg class="google-icon" viewBox="0 0 24 24">
+                                <path fill="#4285F4"
+                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                                <path fill="#34A853"
+                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                <path fill="#FBBC05"
+                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                                <path fill="#EA4335"
+                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                            </svg>
+                            <span>Continue with Google</span>
+                        </button>
+                    </div>
+
+                    <div class="divider">
+                        <span>or sign in with email</span>
+                    </div>
+
+                    <form class="input-form" id="emailLoginForm">
+                        <div class="input-group">
+                            <label for="loginEmail">Email Address</label>
+                            <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="rememberMe">
+                                <span class="checkmark"></span>
+                                <span class="checkbox-label">Remember me</span>
+                            </label>
+                            <a href="#" class="forgot-password">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <span>Sign In</span>
+                            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div class="auth-form hidden" id="registerForm">
+                    <div class="form-header">
+                        <h2>Create Account</h2>
+                        <p>Join My Safety and stay protected</p>
+                    </div>
+
+                    <div class="social-auth">
+                        <button class="google-btn" id="googleSignUpBtn">
+                            <svg class="google-icon" viewBox="0 0 24 24">
+                                <path fill="#4285F4"
+                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                                <path fill="#34A853"
+                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                <path fill="#FBBC05"
+                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                                <path fill="#EA4335"
+                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                            </svg>
+                            <span>Continue with Google</span>
+                        </button>
+                    </div>
+
+                    <div class="divider">
+                        <span>or create account with email</span>
+                    </div>
+
+                    <form class="input-form" id="emailRegisterForm">
+                        <div class="input-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" placeholder="John Doe" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="registerEmail">Email Address</label>
+                            <input type="email" id="registerEmail" placeholder="you@example.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" placeholder="Create a strong password"
+                                required>
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="strength-bar"></div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="registerPhone">Phone Number (Optional)</label>
+                            <input type="tel" id="registerPhone" placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <span class="checkmark"></span>
+                                <span class="checkbox-label">I agree to the <a href="#" class="link">Terms &
+                                        Conditions</a></span>
+                            </label>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <span>Create Account</span>
+                            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Loading Overlay -->
+                <div class="loading-overlay hidden" id="loadingOverlay">
+                    <div class="spinner"></div>
+                    <p>Authenticating...</p>
+                </div>
+
+                <!-- Success Message -->
+                <div class="success-message hidden" id="successMessage">
+                    <div class="success-icon">✓</div>
+                    <h3>Welcome to My Safety!</h3>
+                    <p>Redirecting to your dashboard...</p>
+                </div>
+            </div>
+
+            <div class="footer-text">
+                <p>Protected by enterprise-grade security</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <div class="toast-content">
+            <span class="toast-icon"></span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+    <!-- Auth Logic -->
+    <script src="js/auth.js"></script>
+</body>
+
+</html>
