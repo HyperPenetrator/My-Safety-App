@@ -5,6 +5,7 @@ class VoiceCommandManager {
         this.isEnabled = false;
         // Support for Chrome and standard browsers
         this.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        this.customKeywords = [];
     }
 
     isSupported() {
@@ -58,11 +59,23 @@ class VoiceCommandManager {
 
     processCommand(command) {
         // Trigger words list
-        const triggers = ['help', 'save me', 'emergency', 'bachao', 'stop', 'alert'];
+        const triggers = ['help', 'save me', 'emergency', 'bachao', 'stop', 'alert', ...this.customKeywords];
 
         if (triggers.some(trigger => command.includes(trigger))) {
             console.log('🚨 EMERGENCY COMMAND DETECTED:', command);
             this.triggerEmergency();
+        }
+    }
+
+    addCustomKeywords(keywords) {
+        if (Array.isArray(keywords)) {
+            // Avoid duplicates
+            keywords.forEach(k => {
+                if (!this.customKeywords.includes(k)) {
+                    this.customKeywords.push(k.toLowerCase());
+                }
+            });
+            console.log('Voice triggers updated:', this.customKeywords);
         }
     }
 

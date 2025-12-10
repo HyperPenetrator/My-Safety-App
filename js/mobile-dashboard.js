@@ -158,21 +158,35 @@ function setupEventListeners() {
             toggleSafetyMode(e.target.checked);
         });
     }
+
+    // Keyword Inputs
+    setupKeywordListeners();
 }
 
 // Show specific section
+// Show specific section
 function showSection(sectionName) {
-    // Save current section logic implementation later if needed
-    // For now, we mainly have the home dashboard view
     console.log(`Navigating to ${sectionName}`);
 
-    if (sectionName === 'contacts') {
-        // Just scroll to contacts section or show modal
-        const contactsSection = document.getElementById('quickContacts');
-        if (contactsSection) {
-            contactsSection.scrollIntoView({ behavior: 'smooth' });
-        }
+    // Hide all views
+    document.querySelectorAll('.mobile-view').forEach(view => {
+        view.classList.add('hidden');
+        view.classList.remove('active');
+    });
+
+    // Show target view
+    const targetView = document.getElementById(`${sectionName}-view`);
+    if (targetView) {
+        targetView.classList.remove('hidden');
+        targetView.classList.add('active');
+    } else {
+        // Fallback to home
+        document.getElementById('home-view').classList.remove('hidden');
+        document.getElementById('home-view').classList.add('active');
     }
+
+    // Scroll to top
+    window.scrollTo(0, 0);
 }
 
 // Check Authentication
@@ -203,14 +217,11 @@ async function loadUserData(user) {
 }
 
 function updateUIWithUserData(data) {
-    // Update safety status, etc.
+    // 1. Safety Status
     const statusEl = document.getElementById('safetyStatus');
     const toggleEl = document.getElementById('safetyToggle');
-
     if (data.safetyMode && statusEl) {
-        // Handle object or boolean structure
         const isSafetyActive = typeof data.safetyMode === 'object' ? data.safetyMode.enabled : data.safetyMode;
-
         statusEl.textContent = isSafetyActive ? 'Active' : 'Inactive';
         statusEl.style.color = isSafetyActive ? '#4CAF50' : '#666';
         if (toggleEl) toggleEl.checked = isSafetyActive;
@@ -218,12 +229,117 @@ function updateUIWithUserData(data) {
         // Auto-enable Voice Commands if saved
         if (typeof data.safetyMode === 'object' && data.safetyMode.voiceCommandsEnabled) {
             if (window.voiceManager && !window.voiceManager.isListening) {
-                console.log('Auto-enabling Voice Commands from profile');
                 window.voiceManager.toggle(true);
             }
         }
     }
+
+    // 2. Profile
+    const profileName = document.getElementById('mobileProfileName');
+    const profileEmail = document.getElementById('mobileProfileEmail');
+    if (profileName) profileName.textContent = data.name || 'User';
+    if (profileEmail && currentUser) profileEmail.textContent = currentUser.email;
+
+    // 3. Contacts Rendering
+    if (data.emergencyContacts && Array.isArray(data.emergencyContacts)) {
+        renderMobileContacts(data.emergencyContacts);
+    }
+
+    // 4. Custom Keywords
+    if (data.voiceKeywords && Array.isArray(data.voiceKeywords)) {
+        renderKeywords(data.voiceKeywords);
+        // Sync with Voice Manager
+        if (window.voiceManager && typeof window.voiceManager.addCustomKeywords === 'function') {
+            window.voiceManager.addCustomKeywords(data.voiceKeywords);
+        }
+    }
 }
+
+function renderMobileContacts(contacts) {
+    const grid = document.getElementById('contactsGrid');
+    const list = document.getElementById('fullContactsList');
+
+    // Clear empties
+    if (contacts.length > 0) {
+        if (grid) grid.innerHTML = '';
+        if (list) list.innerHTML = '';
+    }
+
+    contacts.forEach((contact, index) => {
+        const cardHtml = `
+            <div class="contact-card" onclick="window.location.href='tel:${contact.phone}'">
+                <div class="contact-avatar">${contact.name[0]}</div>
+                <div class="contact-info">
+                    <h4>${contact.name}</h4>
+                    <p>${contact.phone}</p>
+                </div>
+                <div class="call-icon">📞</div>
+            </div>
+        `;
+
+        // Add to Quick Call Home Grid (limit 2)
+        if (grid && index < 2) {
+            grid.innerHTML += cardHtml;
+        } else if (grid && index === 2) {
+            grid.innerHTML += `<button class="add-contact-btn" style="width:100%" onclick="showSection('contacts')">View All</button>`;
+        }
+
+        // Add to Full List
+        if (list) {
+            list.innerHTML += cardHtml;
+        }
+    });
+
+    // Restore "Add" button if grid is empty
+    if (grid && contacts.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-contacts">
+                <p>No emergency contacts added</p>
+                <button class="add-contact-btn" id="addContactBtn" onclick="addContact()">Add Contacts</button>
+            </div>
+         `;
+    }
+}
+
+// Custom Keywords Logic
+function renderKeywords(keywords) {
+    const container = document.getElementById('customKeywordsList');
+    if (!container) return;
+
+    container.innerHTML = keywords.map(k => `
+        <span class="keyword-tag">"${k}" </span>
+    `).join('');
+}
+
+// Setup keyword listeners
+function setupKeywordListeners() {
+    const addBtn = document.getElementById('addKeywordBtn');
+    if (addBtn) {
+        addBtn.addEventListener('click', async () => {
+            const input = document.getElementById('newKeywordInput');
+            const keyword = input.value.trim().toLowerCase();
+
+            if (keyword && keyword.length > 2) {
+                // Save to firestore
+                try {
+                    await firebase.firestore().collection('users').doc(currentUser.uid).update({
+                        voiceKeywords: firebase.firestore.FieldValue.arrayUnion(keyword)
+                    });
+                    input.value = '';
+                    // Reload data
+                    loadUserData(currentUser);
+                    alert('Keyword added!');
+                } catch (e) {
+                    console.error('Error adding keyword', e);
+                    alert('Failed to save keyword');
+                }
+            } else {
+                alert('Keyword must be at least 3 characters');
+            }
+        });
+    }
+}
+
 
 // Toggle Safety Mode
 async function toggleSafetyMode(enabled) {

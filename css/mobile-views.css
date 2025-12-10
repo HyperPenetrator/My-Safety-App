@@ -1,0 +1,166 @@
+/* ===================================
+   VIEW NAVIGATION SYSTEM
+   =================================== */
+
+.mobile-view {
+    display: none;
+    animation: fadeIn 0.2s ease-out;
+    padding-bottom: 80px;
+    /* Space for bottom nav */
+}
+
+.mobile-view.active {
+    display: block;
+}
+
+.mobile-view.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* View Headers */
+.view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+.view-header h2 {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-btn-small {
+    background: white;
+    color: #667eea;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+/* Profile Mobile Styles */
+.profile-header-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    color: white;
+}
+
+.avatar-circle {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.profile-header-mobile h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.profile-header-mobile p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Safety Tools & Keywords */
+.tools-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tool-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.tool-card h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.tool-card p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.keyword-input-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.keyword-input-group input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.keyword-input-group button {
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0 1.2rem;
+    font-weight: 600;
+}
+
+.keywords-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.keyword-tag {
+    background: #f0f4ff;
+    color: #667eea;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.keyword-tag span {
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 0.6;
+}
+
+.keyword-tag span:hover {
+    opacity: 1;
+}

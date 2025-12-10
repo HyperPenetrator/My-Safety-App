@@ -187,9 +187,55 @@ async function loadSavedData() {
             if (userData.safetyMode) {
                 applySafetySettings(userData.safetyMode);
             }
+
+            // Load Custom Keywords
+            if (userData.voiceKeywords && window.voiceManager) {
+                window.voiceManager.addCustomKeywords(userData.voiceKeywords);
+                renderDesktopKeywords(userData.voiceKeywords);
+            }
         }
     } catch (error) {
         console.error('Error loading saved data:', error);
+    }
+}
+
+function renderDesktopKeywords(keywords) {
+    const list = document.getElementById('keywordsList');
+    if (!list) return;
+
+    // Default keywords
+    const defaults = ['Help', 'Emergency', 'Stop', 'Alert'];
+    // Merge
+    const all = [...defaults, ...keywords];
+    // Unique
+    const unique = [...new Set(all.map(k => k.toLowerCase()))]; // normalize
+
+    list.innerHTML = unique.map(k => `
+        <span class="keyword-item" style="display:inline-block; padding:5px 10px; background:rgba(255,255,255,0.1); border-radius:15px; margin:2px; font-size:0.9em;">
+            ${k.charAt(0).toUpperCase() + k.slice(1)}
+        </span>
+    `).join('');
+}
+
+function setupDesktopKeywordListeners() {
+    const btn = document.getElementById('desktopAddKeywordBtn');
+    if (btn) {
+        btn.addEventListener('click', async () => {
+            const input = document.getElementById('desktopKeywordInput');
+            const keyword = input.value.trim().toLowerCase();
+            if (keyword.length > 2) {
+                try {
+                    await db.collection('users').doc(currentUser.uid).update({
+                        voiceKeywords: firebase.firestore.FieldValue.arrayUnion(keyword)
+                    });
+                    input.value = '';
+                    loadSavedData(); // Reload
+                    showToast('Keyword added', 'success');
+                } catch (e) {
+                    showToast('Error adding keyword', 'error');
+                }
+            }
+        });
     }
 }
 
@@ -270,6 +316,8 @@ async function handleLogout() {
 // ===================================
 
 function setupEventListeners() {
+    setupDesktopKeywordListeners();
+
     // Quick action buttons
     document.getElementById('setupPermissionsBtn')?.addEventListener('click', () => {
         navigateToSection('permissions');
