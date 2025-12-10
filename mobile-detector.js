@@ -28,31 +28,42 @@ function setUserVersionPreference(version) {
 
 // Route to appropriate version
 function routeToVersion() {
-    const currentPage = window.location.pathname;
+    const path = window.location.pathname;
     const preference = getUserVersionPreference();
     const isMobile = isMobileDevice();
 
-    // Don't redirect on auth page or if already on correct version
-    if (currentPage.includes('auth.html')) {
-        return; // Let auth page load normally
-    }
-
-    // If user has preference, respect it
-    if (preference === 'desktop' && currentPage.includes('dashboard-mobile.html')) {
-        window.location.href = 'dashboard.html';
+    // 1. Don't touch Auth or Index pages
+    if (path.includes('auth.html') || path.includes('index.html') || path === '/' || path === '') {
         return;
     }
 
-    if (preference === 'mobile' && currentPage === '/dashboard.html') {
-        window.location.href = 'dashboard-mobile.html';
-        return;
+    const onMobilePage = path.includes('dashboard-mobile.html');
+    const onDesktopPage = path.includes('dashboard.html');
+
+    // 2. STRICT PREFERENCE CHECK (Overrides everything)
+    if (preference === 'mobile') {
+        if (onDesktopPage) {
+            window.location.href = 'dashboard-mobile.html';
+        }
+        return; // If on mobile page, STAY THERE.
     }
 
-    // Auto-detect and route
-    if (isMobile && currentPage === '/dashboard.html') {
-        window.location.href = 'dashboard-mobile.html';
-    } else if (!isMobile && currentPage.includes('dashboard-mobile.html')) {
-        window.location.href = 'dashboard.html';
+    if (preference === 'desktop') {
+        if (onMobilePage) {
+            window.location.href = 'dashboard.html';
+        }
+        return; // If on desktop page, STAY THERE.
+    }
+
+    // 3. AUTO-DETECTION (Only if NO preference is set)
+    if (!preference) {
+        if (isMobile && onDesktopPage) {
+            window.location.href = 'dashboard-mobile.html';
+        } else if (!isMobile && onMobilePage) {
+            // Optional: Auto-redirect desktop users back to desktop view
+            // But only if they haven't explicitly chosen mobile
+            window.location.href = 'dashboard.html';
+        }
     }
 }
 
