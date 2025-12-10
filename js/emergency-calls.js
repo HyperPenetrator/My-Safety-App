@@ -44,11 +44,29 @@ class EmergencyCallSystem {
     makeCall(contact) {
         if (!contact || !contact.phone) {
             console.error('Invalid contact for calling');
+            alert('Cannot call: Contact has no phone number');
             return false;
         }
 
-        // Clean phone number (remove spaces, dashes, etc.)
-        const cleanPhone = contact.phone.replace(/[\s\-\(\)]/g, '');
+        // Clean phone number thoroughly
+        let cleanPhone = contact.phone.toString().trim();
+
+        // Remove all non-numeric characters except + (for country code)
+        cleanPhone = cleanPhone.replace(/[^\d+]/g, '');
+
+        // Auto-add country code if missing (default to India +91)
+        if (!cleanPhone.startsWith('+')) {
+            // If it starts with 0, remove it (common in Indian numbers)
+            if (cleanPhone.startsWith('0')) {
+                cleanPhone = cleanPhone.substring(1);
+            }
+            // Add +91 if it's a 10-digit number
+            if (cleanPhone.length === 10) {
+                cleanPhone = '+91' + cleanPhone;
+            }
+        }
+
+        console.log(`📞 Attempting to call: ${contact.name} at ${cleanPhone}`);
 
         // Log the call attempt
         this.callAttempts.push({
@@ -58,10 +76,71 @@ class EmergencyCallSystem {
             status: 'initiated'
         });
 
-        // Use tel: protocol to initiate call
-        window.location.href = `tel:${cleanPhone}`;
+        // Try multiple methods for maximum compatibility
+        try {
+            // Method 1: window.location (most compatible)
+            window.location.href = `tel:${cleanPhone}`;
 
-        return true;
+            // Method 2: Fallback after 500ms if Method 1 fails
+            setTimeout(() => {
+                try {
+                    // Create an invisible anchor element
+                    const telLink = document.createElement('a');
+                    telLink.href = `tel:${cleanPhone}`;
+                    telLink.style.display = 'none';
+                    document.body.appendChild(telLink);
+                    telLink.click();
+                    document.body.removeChild(telLink);
+                } catch (e) {
+                    console.error('Fallback method failed:', e);
+                }
+            }, 500);
+
+            // Show confirmation
+            console.log('✅ Call initiated successfully');
+            return true;
+
+        } catch (error) {
+            console.error('Error initiating call:', error);
+
+            // Final fallback: Ask user to call manually
+            const shouldCopyNumber = confirm(
+                `Could not open dialer automatically.\n\n` +
+                `Contact: ${contact.name}\n` +
+                `Number: ${cleanPhone}\n\n` +
+                `Click OK to copy number to clipboard.`
+            );
+
+            if (shouldCopyNumber) {
+                this.copyToClipboard(cleanPhone);
+            }
+
+            return false;
+        }
+    }
+
+    // Helper function to copy to clipboard
+    copyToClipboard(text) {
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert(`Number copied: ${text}\nPlease dial manually.`);
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert(`Number copied: ${text}\nPlease dial manually.`);
+            }
+        } catch (e) {
+            alert(`Please call: ${text}`);
+        }
     }
 
     // Start emergency call sequence
