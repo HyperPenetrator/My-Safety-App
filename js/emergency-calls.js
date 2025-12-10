@@ -272,6 +272,7 @@ class EmergencyCallSystem {
 
 // Global instance
 const emergencyCallSystem = new EmergencyCallSystem();
+window.emergencyCallSystem = emergencyCallSystem;
 
 // Initialize on page load
 window.addEventListener('DOMContentLoaded', () => {

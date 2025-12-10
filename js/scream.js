@@ -288,65 +288,30 @@ function handleScreamEnded() {
 
 async function triggerScreamEmergency(volume, frequency, duration) {
     console.log('🚨 SCREAM EMERGENCY TRIGGERED 🚨');
-    console.log(`Volume: ${volume.toFixed(2)}, Frequency: ${frequency.toFixed(2)} Hz, Duration: ${duration}ms`);
+    console.log(`Volume: ${volume.toFixed(2)}, Frequency: ${frequency.toFixed(2)} Hz`);
 
-    screamDetection.detectionCount++;
-    screamDetection.lastDetectionTime = Date.now();
-
-    // Show emergency modal
-    showScreamEmergencyModal(volume, frequency, duration);
-
-    // Start countdown (5 seconds to cancel)
-    let countdown = 5;
-    const countdownInterval = setInterval(() => {
-        countdown--;
-        updateScreamEmergencyCountdown(countdown);
-
-        if (countdown <= 0) {
-            clearInterval(countdownInterval);
-            executeScreamEmergencyActions();
-        }
-    }, 1000);
-
-    // Store interval ID for cancellation
-    window.screamEmergencyCountdownInterval = countdownInterval;
-
-    // Log to Firestore
+    // Log the event
     await logScreamDetection(volume, frequency, duration);
+
+    // Trigger the centralized Emergency System
+    if (window.emergencyCallSystem) {
+        // We can pass metadata if needed, but for now just start the sequence
+        window.emergencyCallSystem.startEmergencySequence();
+
+        // Also ensure voice command listening is active for further instructions
+        if (window.voiceManager && !window.voiceManager.isListening) {
+            window.voiceManager.toggle(true);
+        }
+    } else {
+        console.error('Emergency Call System not found!');
+        alert('Scream detected but Emergency System is offline.');
+    }
 }
 
-async function executeScreamEmergencyActions() {
-    console.log('Executing scream emergency actions...');
-
-    try {
-        // 1. Get current location
-        const location = await getCurrentLocationForScream();
-
-        // 2. Send location to emergency contacts
-        await sendLocationToContacts(location);
-
-        // 3. Activate voice command mode
-        activateVoiceCommandMode();
-
-        // 4. Send emergency notifications
-        await sendScreamEmergencyNotifications(location);
-
-        // 5. Activate all safety features
-        activateAllSafetyFeatures();
-
-        // 6. Log emergency event
-        await logScreamEmergencyEvent(location);
-
-        console.log('Scream emergency actions completed');
-        showToast('Emergency contacts alerted! Voice commands activated.', 'success');
-
-        // Hide modal
-        hideScreamEmergencyModal();
-
-    } catch (error) {
-        console.error('Error executing scream emergency actions:', error);
-        showToast('Error alerting contacts', 'error');
-    }
+// executeScreamEmergencyActions is no longer needed as emergencyCallSystem handles it
+// potentially keep it empty or remove it if not called elsewhere
+function executeScreamEmergencyActions() {
+    // Deprecated
 }
 
 // ===================================
