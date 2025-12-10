@@ -62,6 +62,42 @@ function setupEventListeners() {
         });
     });
 
+    // Add Contact Button
+    const addContactBtn = document.getElementById('addContactBtn');
+    if (addContactBtn) {
+        addContactBtn.addEventListener('click', () => {
+            console.log('Add Contact Clicked');
+            addContact();
+        });
+    }
+
+    // Quick Actions
+    const permissionsCard = document.getElementById('permissionsCard');
+    if (permissionsCard) {
+        permissionsCard.addEventListener('click', () => showSection('permissions'));
+    }
+
+    const locationCard = document.getElementById('locationCard');
+    if (locationCard) {
+        locationCard.addEventListener('click', () => showSection('location'));
+    }
+
+    // Side Menu Buttons
+    const switchToDesktopBtn = document.getElementById('switchToDesktopBtn');
+    if (switchToDesktopBtn) {
+        switchToDesktopBtn.addEventListener('click', switchToDesktop);
+    }
+
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+    }
+
+    const settingsBtn = document.getElementById('openSettingsBtn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', showSettings);
+    }
+
     // SOS Button
     const sosBtn = document.getElementById('sosButton');
     if (sosBtn) {

@@ -59,7 +59,7 @@
             <div class="contacts-grid" id="contactsGrid">
                 <div class="empty-contacts">
                     <p>No emergency contacts added</p>
-                    <button class="add-contact-btn" onclick="addContact()">Add Contacts</button>
+                    <button class="add-contact-btn" id="addContactBtn">Add Contacts</button>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
 
         <!-- Quick Actions -->
         <div class="quick-actions">
-            <button class="action-card" onclick="showSection('permissions')">
+            <button class="action-card" id="permissionsCard">
                 <div class="action-icon">🔒</div>
                 <div class="action-text">
                     <h4>Permissions</h4>
@@ -89,7 +89,7 @@
                 </div>
             </button>
 
-            <button class="action-card" onclick="showSection('location')">
+            <button class="action-card" id="locationCard">
                 <div class="action-icon">📍</div>
                 <div class="action-text">
                     <h4>Location</h4>
@@ -140,15 +140,15 @@
             <button class="close-menu" id="closeMenu">✕</button>
         </div>
         <div class="menu-content">
-            <button class="menu-item" onclick="switchToDesktop()">
+            <button class="menu-item" id="switchToDesktopBtn">
                 <span>🖥️</span>
                 Switch to Desktop View
             </button>
-            <button class="menu-item" onclick="showSettings()">
+            <button class="menu-item" id="openSettingsBtn">
                 <span>⚙️</span>
                 Settings
             </button>
-            <button class="menu-item" onclick="logout()">
+            <button class="menu-item" id="logoutBtn">
                 <span>🚪</span>
                 Logout
             </button>
