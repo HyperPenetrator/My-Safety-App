@@ -81,27 +81,35 @@ async function handleGoogleSignIn() {
     showLoading();
 
     try {
+        // 1. Set persistence to LOCAL (Explicitly ensure "Remember Me")
+        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+        // 2. Configure Provider
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({
             prompt: 'select_account'
         });
 
+        // 3. SignIn
         const result = await auth.signInWithPopup(provider);
         const user = result.user;
 
         console.log('Google Sign-In successful:', user.email);
 
-        // Check if user exists in database
+        // 4. Check & Create/Update User
         const userDoc = await db.collection('users').doc(user.uid).get();
 
         if (userDoc.exists) {
-            // Existing user - proceed to dashboard
             await handleSuccessfulLogin(user);
         } else {
-            // New user - show error, they should register first
-            await auth.signOut();
-            hideLoading();
-            showToast('Account not found. Please sign up first.', 'error');
+            // Auto-create account for Google users (better UX than error)
+            await createUserProfile(user, {
+                name: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+                authProvider: 'google'
+            });
+            await handleSuccessfulRegistration(user);
         }
     } catch (error) {
         hideLoading();
