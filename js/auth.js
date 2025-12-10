@@ -81,16 +81,13 @@ async function handleGoogleSignIn() {
     showLoading();
 
     try {
-        // 1. Set persistence to LOCAL (Explicitly ensure "Remember Me")
-        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-        // 2. Configure Provider
+        // 1. Configure Provider (Default persistence is already LOCAL/Remember Me)
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({
             prompt: 'select_account'
         });
 
-        // 3. SignIn
+        // 2. SignIn (Must happen directly after click)
         const result = await auth.signInWithPopup(provider);
         const user = result.user;
 
