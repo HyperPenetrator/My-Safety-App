@@ -163,6 +163,62 @@ function setupEventListeners() {
         });
     }
 
+    // Mobile Voice Command Toggle
+    const mobileVoiceToggle = document.getElementById('mobileVoiceToggle');
+    const voiceSettingsContainer = document.getElementById('voiceSettingsContainer');
+
+    if (mobileVoiceToggle && window.voiceManager) {
+        // Check if voice recognition is supported
+        if (!window.voiceManager.isSupported()) {
+            mobileVoiceToggle.disabled = true;
+            alert('Voice recognition is not supported on this browser. Please use Chrome or Edge.');
+        }
+
+        mobileVoiceToggle.addEventListener('change', async (e) => {
+            const enabled = e.target.checked;
+
+            if (enabled) {
+                // Request microphone permission first
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    stream.getTracks().forEach(track => track.stop()); // Close immediately
+
+                    // Enable voice commands
+                    window.voiceManager.toggle(true);
+
+                    // Show keyword settings
+                    if (voiceSettingsContainer) {
+                        voiceSettingsContainer.style.display = 'block';
+                    }
+
+                    console.log('✓ Voice commands enabled on mobile');
+                } catch (error) {
+                    console.error('Microphone permission denied:', error);
+                    e.target.checked = false;
+                    alert('Microphone access is required for voice commands. Please grant permission and try again.');
+                }
+            } else {
+                // Disable voice commands
+                window.voiceManager.toggle(false);
+
+                // Hide keyword settings
+                if (voiceSettingsContainer) {
+                    voiceSettingsContainer.style.display = 'none';
+                }
+
+                console.log('✗ Voice commands disabled');
+            }
+        });
+
+        // Restore previous state if voice was enabled
+        if (window.voiceManager.isListening) {
+            mobileVoiceToggle.checked = true;
+            if (voiceSettingsContainer) {
+                voiceSettingsContainer.style.display = 'block';
+            }
+        }
+    }
+
     // Keyword Inputs
     setupKeywordListeners();
 }

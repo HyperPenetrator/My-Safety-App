@@ -126,13 +126,24 @@
             </div>
             <div class="tools-list">
                 <div class="tool-card">
-                    <h3>Voice Commands</h3>
-                    <p>Trigger alerts by saying "Help", "Emergency"</p>
-                    <div class="keyword-input-group">
-                        <input type="text" id="newKeywordInput" placeholder="Add custom keyword">
-                        <button id="addKeywordBtn">Add</button>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div>
+                            <h3>Voice Commands</h3>
+                            <p style="margin: 0;">Trigger alerts by saying "Help", "Emergency"</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="mobileVoiceToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
                     </div>
-                    <div id="customKeywordsList" class="keywords-tags"></div>
+                    <div id="voiceSettingsContainer" style="display: none;">
+                        <div class="keyword-input-group">
+                            <input type="text" id="newKeywordInput" placeholder="Add custom keyword">
+                            <button id="addKeywordBtn">Add</button>
+                        </div>
+                        <div id="customKeywordsList" class="keywords-tags"></div>
+                    </div>
                 </div>
             </div>
         </div>
