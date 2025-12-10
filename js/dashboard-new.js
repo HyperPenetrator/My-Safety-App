@@ -101,6 +101,61 @@ async function loadUserData() {
     } catch (error) {
         console.error('Error loading user data:', error);
     }
+
+    // Populate Profile Section
+    if (currentUser) {
+        // Headers
+        const pName = document.getElementById('profileNameDisplay');
+        const pEmail = document.getElementById('profileEmailDisplay');
+        if (pName) pName.textContent = currentUser.displayName || 'No Name Set';
+        if (pEmail) pEmail.textContent = currentUser.email;
+
+        // Inputs
+        const iName = document.getElementById('profileNameInput');
+        const iPhone = document.getElementById('profilePhoneInput');
+
+        if (iName) iName.value = currentUser.displayName || '';
+
+        // Load Phone from DB if available (since auth doesn't always have it)
+        try {
+            const doc = await db.collection('users').doc(currentUser.uid).get();
+            if (doc.exists && doc.data().phone) {
+                if (iPhone) iPhone.value = doc.data().phone;
+            }
+        } catch (e) { console.log('Err loading phone', e); }
+    }
+}
+
+// Profile Save Listener
+const saveProfileBtn = document.getElementById('saveProfileBtn');
+if (saveProfileBtn) {
+    saveProfileBtn.addEventListener('click', async () => {
+        saveProfileBtn.disabled = true;
+        saveProfileBtn.textContent = 'Updating...';
+
+        const newName = document.getElementById('profileNameInput').value;
+        const newPhone = document.getElementById('profilePhoneInput').value;
+
+        try {
+            await currentUser.updateProfile({ displayName: newName });
+            await db.collection('users').doc(currentUser.uid).update({
+                name: newName,
+                phone: newPhone,
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true }); // Merge to avoid overwriting other fields
+
+            showToast('Profile Updated Successfully', 'success');
+            // Refresh display
+            document.getElementById('userName').textContent = newName;
+            document.getElementById('profileNameDisplay').textContent = newName;
+        } catch (error) {
+            console.error('Profile update failed:', error);
+            showToast('Failed to update profile', 'error');
+        } finally {
+            saveProfileBtn.disabled = false;
+            saveProfileBtn.textContent = 'Update Profile';
+        }
+    });
 }
 
 async function loadSavedData() {
@@ -167,8 +222,9 @@ function setupNavigation() {
         });
     });
 
-    // Logout button
-    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+    // Logout buttons
+    document.getElementById('logoutBtn')?.addEventListener('click', handleLogout);
+    document.getElementById('sidebarLogoutBtn')?.addEventListener('click', handleLogout);
 }
 
 async function handleLogout() {

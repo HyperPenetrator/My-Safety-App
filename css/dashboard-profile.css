@@ -1,0 +1,84 @@
+/* Special Sidebar Actions (Switch Mobile / Logout) */
+.menu-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 15px 20px;
+}
+
+.menu-item.special-action {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 10px;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.menu-item.special-action:hover {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+.menu-item.logout-action {
+    color: #ff6b6b;
+    margin-top: auto;
+}
+
+.menu-item.logout-action:hover {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff4757;
+}
+
+/* Profile Section Styles */
+.profile-card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    max-width: 600px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-info h2 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+}
+
+.profile-info p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-details .form-control {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+}
