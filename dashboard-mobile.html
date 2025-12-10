@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/mobile-dashboard.css">
     <link rel="stylesheet" href="css/emergency-calls.css">
     <link rel="stylesheet" href="css/permissions.css">
+    <link rel="stylesheet" href="css/voice-indicator.css">
 </head>
 
 <body>
@@ -29,7 +30,10 @@
     <header class="mobile-header">
         <div class="header-content">
             <div class="logo">🛡️</div>
-            <h1>My <span>Safety</span></h1>
+            <div class="header-titles">
+                <h1>My <span>Safety</span></h1>
+                <div id="voiceStatusIndicator" class="voice-indicator"></div>
+            </div>
             <button class="menu-btn" id="menuBtn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <line x1="3" y1="12" x2="21" y2="12" stroke-width="2" />
@@ -167,6 +171,8 @@
     <script src="mobile-detector.js"></script>
     <!-- Contacts API -->
     <script src="js/contacts-manager.js"></script>
+    <!-- Voice Commands -->
+    <script src="js/voice-command-manager.js"></script>
 </body>
 
 </html>

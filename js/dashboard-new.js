@@ -889,40 +889,57 @@ async function handleSafetyModeToggle(e) {
 
 async function handleVoiceCommandToggle(e) {
     const enabled = e.target.checked;
-
-    if (enabled && !permissionsGranted.microphone) {
-        e.target.checked = false;
-        showToast('Please grant microphone permission first', 'error');
-        navigateToSection('permissions');
-        return;
-    }
+    const statusText = document.getElementById('voiceCommandStatus');
+    const indicator = document.getElementById('voiceListeningIndicator');
 
     if (enabled) {
-        // Start multilingual voice commands (from voice.js)
-        if (typeof startVoiceCommands === 'function') {
-            const started = startVoiceCommands();
-            if (started) {
-                showToast('Multilingual voice commands enabled', 'success');
+        // Request Microphone Permission first
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            stream.getTracks().forEach(track => track.stop()); // Close stream immediately
+
+            // Enable Voice Manager
+            if (window.voiceManager) {
+                window.voiceManager.toggle(true);
+                if (statusText) {
+                    statusText.textContent = 'Active & Listening';
+                    statusText.className = 'status-text active';
+                }
+                if (indicator) indicator.classList.remove('hidden');
+
+                showToast('Voice Commands Activated. Say "Help" or "Emergency"', 'success');
             } else {
                 e.target.checked = false;
-                showToast('Error starting voice commands', 'error');
-                return;
+                showToast('Voice Manager not loaded (Check scripts)', 'error');
             }
-        } else {
-            console.warn('Voice commands module not loaded');
-            showToast('Voice commands not available', 'error');
+        } catch (error) {
+            console.error('Mic permission denied:', error);
             e.target.checked = false;
-            return;
+            showToast('Microphone access is required for Voice Commands', 'error');
         }
     } else {
-        // Stop voice commands
-        if (typeof stopVoiceCommands === 'function') {
-            stopVoiceCommands();
+        // Disable Voice Manager
+        if (window.voiceManager) {
+            window.voiceManager.toggle(false);
         }
+        if (statusText) {
+            statusText.textContent = 'Inactive';
+            statusText.className = 'status-text';
+        }
+        if (indicator) indicator.classList.add('hidden');
         showToast('Voice commands disabled', 'info');
     }
 
-    await saveSafetySettings();
+    // Save preference
+    if (currentUser) {
+        try {
+            await db.collection('users').doc(currentUser.uid).update({
+                'safetyMode.voiceCommandsEnabled': enabled
+            });
+        } catch (error) {
+            console.error('Error saving voice preference:', error);
+        }
+    }
 }
 
 async function handleScreamDetectionToggle(e) {

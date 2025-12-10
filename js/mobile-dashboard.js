@@ -184,9 +184,20 @@ function updateUIWithUserData(data) {
     const toggleEl = document.getElementById('safetyToggle');
 
     if (data.safetyMode && statusEl) {
-        statusEl.textContent = 'Active';
-        statusEl.style.color = '#4CAF50';
-        if (toggleEl) toggleEl.checked = true;
+        // Handle object or boolean structure
+        const isSafetyActive = typeof data.safetyMode === 'object' ? data.safetyMode.enabled : data.safetyMode;
+
+        statusEl.textContent = isSafetyActive ? 'Active' : 'Inactive';
+        statusEl.style.color = isSafetyActive ? '#4CAF50' : '#666';
+        if (toggleEl) toggleEl.checked = isSafetyActive;
+
+        // Auto-enable Voice Commands if saved
+        if (typeof data.safetyMode === 'object' && data.safetyMode.voiceCommandsEnabled) {
+            if (window.voiceManager && !window.voiceManager.isListening) {
+                console.log('Auto-enabling Voice Commands from profile');
+                window.voiceManager.toggle(true);
+            }
+        }
     }
 }
 

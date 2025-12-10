@@ -1,0 +1,52 @@
+/* Update Header Layout */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header-titles {
+    flex: 1;
+    margin-left: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mobile-header h1 {
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Voice Indicator */
+.voice-indicator {
+    font-size: 0.75rem;
+    color: #666;
+    height: 1rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.voice-indicator.active {
+    color: #ff416c;
+    animation: pulse-text 1.5s infinite;
+}
+
+.voice-indicator.active::before {
+    content: "● ";
+}
+
+@keyframes pulse-text {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
