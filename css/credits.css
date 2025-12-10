@@ -1,0 +1,22 @@
+/* ===================================
+   CREDITS & TEAM SECTION
+   =================================== */
+
+.team-member-card:hover {
+    background: rgba(102, 126, 234, 0.2) !important;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.team-member-card:active {
+    transform: translateX(3px);
+}
+
+/* GitHub icon animation */
+.team-member-card svg {
+    transition: transform 0.3s ease;
+}
+
+.team-member-card:hover svg {
+    transform: translateX(3px);
+}
