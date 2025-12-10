@@ -1,0 +1,61 @@
+/* ===================================
+   RESPONSIVE DRAWER LOGIC
+   =================================== */
+
+@media (max-width: 1024px) {
+
+    /* Show Hamburger Menu */
+    #desktopMenuBtn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Sidebar transforms into Drawer */
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        /* Cover full height including navbar area if needed, or stick to below navbar */
+        bottom: 0;
+        width: 280px;
+        background: var(--bg-glass, #fff);
+        /* Ensure background is solid enough */
+        backdrop-filter: blur(25px);
+        z-index: 1100;
+        /* Higher than navbar */
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+    }
+
+    /* Adjust for Navbar if top is below it */
+    .sidebar {
+        top: var(--navbar-height, 70px);
+        height: calc(100vh - var(--navbar-height, 70px));
+    }
+
+    /* Open State */
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Overlay Active State */
+    .sidebar-overlay.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto;
+    }
+}
+
+/* Fix main content margin on mobile since sidebar is hidden */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 0 !important;
+        width: 100%;
+        max-width: 100vw;
+        padding: 1rem;
+    }
+}

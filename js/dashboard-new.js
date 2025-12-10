@@ -225,6 +225,34 @@ function setupNavigation() {
     // Logout buttons
     document.getElementById('logoutBtn')?.addEventListener('click', handleLogout);
     document.getElementById('sidebarLogoutBtn')?.addEventListener('click', handleLogout);
+
+    // Responsive Drawer Logic
+    const menuBtn = document.getElementById('desktopMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    if (menuBtn && sidebar && overlay) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent immediate closing
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        // Close on menu item click (if mobile)
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+    }
 }
 
 async function handleLogout() {
