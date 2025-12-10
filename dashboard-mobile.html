@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/emergency-calls.css">
     <link rel="stylesheet" href="css/permissions.css">
     <link rel="stylesheet" href="css/voice-indicator.css">
+    <link rel="stylesheet" href="css/mobile-menu-custom.css">
 </head>
 
 <body>
@@ -144,18 +145,36 @@
             <button class="close-menu" id="closeMenu">✕</button>
         </div>
         <div class="menu-content">
-            <button class="menu-item" id="switchToDesktopBtn">
-                <span>🖥️</span>
-                Switch to Desktop View
-            </button>
-            <button class="menu-item" id="openSettingsBtn">
-                <span>⚙️</span>
-                Settings
-            </button>
-            <button class="menu-item" id="logoutBtn">
-                <span>🚪</span>
-                Logout
-            </button>
+            <div class="menu-section">
+                <p class="menu-label">Navigation</p>
+                <button class="menu-item nav-drawer-item" data-section="home">
+                    <span>🏠</span> Home
+                </button>
+                <button class="menu-item nav-drawer-item" data-section="contacts">
+                    <span>👥</span> Emergency Contacts
+                </button>
+                <button class="menu-item nav-drawer-item" data-section="safety">
+                    <span>🛡️</span> Safety Tools
+                </button>
+                <button class="menu-item nav-drawer-item" data-section="profile">
+                    <span>👤</span> My Profile
+                </button>
+            </div>
+
+            <div class="menu-divider"></div>
+
+            <div class="menu-section">
+                <p class="menu-label">System</p>
+                <button class="menu-item" id="switchToDesktopBtn">
+                    <span>🖥️</span> Switch to Desktop View
+                </button>
+                <button class="menu-item" id="openSettingsBtn">
+                    <span>⚙️</span> Settings
+                </button>
+                <button class="menu-item" id="logoutBtn">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
         </div>
     </div>
 

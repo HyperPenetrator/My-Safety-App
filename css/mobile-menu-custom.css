@@ -1,0 +1,29 @@
+/* Existing styles... */
+
+/* Menu Enhancements */
+.menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0.5rem 0 0.25rem 0.5rem;
+    font-weight: 600;
+}
+
+.menu-divider {
+    height: 1px;
+    background: #e0e0e0;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.menu-item {
+    font-size: 1rem;
+    font-weight: 500;
+}

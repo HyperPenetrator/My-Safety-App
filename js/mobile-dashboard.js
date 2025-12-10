@@ -46,7 +46,7 @@ function setupEventListeners() {
         }
     });
 
-    // Navigation
+    // Navigation (Bottom Bar)
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
@@ -59,6 +59,30 @@ function setupEventListeners() {
             // Show section
             const sectionName = target.getAttribute('data-section');
             showSection(sectionName);
+        });
+    });
+
+    // Navigation (Side Drawer)
+    const drawerItems = document.querySelectorAll('.nav-drawer-item');
+    // sideMenu is already declared at the top of setupEventListeners
+    drawerItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            const sectionName = e.currentTarget.getAttribute('data-section');
+
+            // 1. Show Section
+            showSection(sectionName);
+
+            // 2. Update Bottom Nav Active State
+            navItems.forEach(nav => {
+                if (nav.getAttribute('data-section') === sectionName) {
+                    nav.classList.add('active');
+                } else {
+                    nav.classList.remove('active');
+                }
+            });
+
+            // 3. Close Drawer
+            if (sideMenu) sideMenu.classList.remove('open');
         });
     });
 
