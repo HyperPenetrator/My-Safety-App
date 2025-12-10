@@ -952,6 +952,16 @@ async function handleVoiceCommandToggle(e) {
         // Request Microphone Permission first
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+            // Permission granted
+            permissionsGranted.microphone = true;
+            // Update UI badge if visible
+            const micBadge = document.querySelector('#microphonePermStatus .status-badge');
+            if (micBadge) {
+                micBadge.textContent = 'Granted';
+                micBadge.className = 'status-badge granted';
+            }
+
             stream.getTracks().forEach(track => track.stop()); // Close stream immediately
 
             // Enable Voice Manager
@@ -1001,23 +1011,28 @@ async function handleVoiceCommandToggle(e) {
 async function handleScreamDetectionToggle(e) {
     const enabled = e.target.checked;
 
-    if (enabled && !permissionsGranted.microphone) {
-        e.target.checked = false;
-        showToast('Please grant microphone permission first', 'error');
-        navigateToSection('permissions');
-        return;
-    }
-
     if (enabled) {
-        showToast('Scream detection enabled', 'success');
-        // Start scream detection (from scream.js)
         if (typeof startScreamDetection === 'function') {
-            startScreamDetection();
+            const success = await startScreamDetection();
+            if (success) {
+                permissionsGranted.microphone = true;
+                showToast('Scream detection enabled', 'success');
+            } else {
+                e.target.checked = false;
+                // startScreamDetection handles error toasts
+                return;
+            }
+        } else {
+            e.target.checked = false;
+            showToast('Scream module not loaded', 'error');
+            return;
         }
     } else {
+        if (typeof stopScreamDetection === 'function') {
+            stopScreamDetection();
+        }
         showToast('Scream detection disabled', 'info');
     }
-
     await saveSafetySettings();
 }
 
