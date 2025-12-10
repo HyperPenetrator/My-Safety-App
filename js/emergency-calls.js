@@ -14,22 +14,26 @@ class EmergencyCallSystem {
     async loadContacts() {
         try {
             const user = firebase.auth().currentUser;
-            if (!user) return [];
+            if (!user) {
+                console.warn('No user authenticated');
+                return [];
+            }
 
             const db = firebase.firestore();
-            const contactsSnapshot = await db.collection('users')
-                .doc(user.uid)
-                .collection('emergencyContacts')
-                .orderBy('priority', 'asc')
-                .limit(3)
-                .get();
+            // Read from array field instead of subcollection
+            const userDoc = await db.collection('users').doc(user.uid).get();
 
-            this.contacts = contactsSnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-
-            return this.contacts;
+            if (userDoc.exists && userDoc.data().emergencyContacts) {
+                const contacts = userDoc.data().emergencyContacts;
+                // Take first 3 contacts
+                this.contacts = contacts.slice(0, 3);
+                console.log(`✅ Loaded ${this.contacts.length} emergency contacts:`, this.contacts.map(c => c.name));
+                return this.contacts;
+            } else {
+                console.warn('No emergency contacts found in user document');
+                this.contacts = [];
+                return [];
+            }
         } catch (error) {
             console.error('Error loading contacts:', error);
             return [];
@@ -73,12 +77,28 @@ class EmergencyCallSystem {
 
         // Load contacts if not already loaded
         if (this.contacts.length === 0) {
+            console.log('Contacts not loaded, fetching now...');
             await this.loadContacts();
         }
 
         if (this.contacts.length === 0) {
-            alert('No emergency contacts configured. Please add contacts first.');
             this.isEmergencyActive = false;
+
+            // Better user guidance
+            const shouldAddContacts = confirm(
+                '⚠️ NO EMERGENCY CONTACTS FOUND\n\n' +
+                'You need to add emergency contacts before using SOS features.\n\n' +
+                'Click OK to add contacts now, or Cancel to dismiss.'
+            );
+
+            if (shouldAddContacts) {
+                // Navigate to contacts section
+                if (typeof showSection === 'function') {
+                    showSection('contacts');
+                } else if (typeof navigateToSection === 'function') {
+                    navigateToSection('contacts');
+                }
+            }
             return;
         }
 

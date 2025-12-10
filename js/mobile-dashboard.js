@@ -130,12 +130,16 @@ function setupEventListeners() {
         // Touch start / Mouse down
         const startEvent = (e) => {
             e.preventDefault();
+            console.log('🚨 SOS Button Pressed!');
             sosBtn.style.transform = 'scale(0.95)';
-            // Start 3s countdown handled by emergency system
+
+            // Trigger emergency system
             if (window.emergencyCallSystem) {
+                console.log('✓ Emergency Call System found, starting sequence...');
                 window.emergencyCallSystem.startEmergencySequence();
             } else {
-                alert('Emergency system not initialized');
+                console.error('✗ Emergency system not initialized!');
+                alert('Emergency system not initialized. Please refresh the page.');
             }
         };
 

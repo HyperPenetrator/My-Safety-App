@@ -80,14 +80,18 @@ class VoiceCommandManager {
     }
 
     triggerEmergency() {
+        console.log('🚨 Voice Command: Emergency Trigger Activated!');
+
         // Haptic feedback
         if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
 
         // Trigger Call System
         if (window.emergencyCallSystem) {
+            console.log('✓ Emergency Call System found, starting sequence...');
             window.emergencyCallSystem.startEmergencySequence();
         } else {
-            alert('Emergency System not ready!');
+            console.error('✗ Emergency System not initialized!');
+            alert('Emergency System not ready! Please refresh the page.');
         }
     }
 
