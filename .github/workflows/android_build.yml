@@ -29,6 +29,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Prepare Web Assets
+        run: |
+          mkdir -p www
+          cp -r *.html *.js *.json css js firebase-config.js www/ || true
+          # Remove recursion/circular copy if any
+          rm -rf www/node_modules
+          rm -rf www/android
+
       - name: Initialize Capacitor
         run: npx cap sync
 
