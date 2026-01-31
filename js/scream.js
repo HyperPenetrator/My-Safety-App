@@ -28,83 +28,35 @@ let screamDetection = {
     falsePositiveCount: 0
 };
 
-// ===================================
-// INITIALIZATION
-// ===================================
-
 async function initializeScreamDetection() {
-    console.log('Initializing scream detection system...');
-
-    // Check browser support
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        console.error('Audio API not supported in this browser');
-        showToast('Scream detection not supported in this browser', 'error');
+    if (!navigator.mediaDevices?.getUserMedia || (!window.AudioContext && !window.webkitAudioContext)) {
+        showToast('Scream detection not supported', 'error');
         return false;
     }
-
-    if (!window.AudioContext && !window.webkitAudioContext) {
-        console.error('Web Audio API not supported');
-        showToast('Audio analysis not supported', 'error');
-        return false;
-    }
-
-    console.log('Scream detection initialized');
     return true;
 }
 
-// ===================================
-// START/STOP DETECTION
-// ===================================
-
 async function startScreamDetection() {
-    if (screamDetection.isListening) {
-        console.log('Scream detection already active');
-        return true;
-    }
-
+    if (screamDetection.isListening) return true;
     try {
-        // Request microphone access
         const stream = await navigator.mediaDevices.getUserMedia({
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true,
-                autoGainControl: false
-            }
+            audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: false }
         });
-
-        // Create audio context
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         screamDetection.audioContext = new AudioContextClass();
-
-        // Create analyser
         screamDetection.analyser = screamDetection.audioContext.createAnalyser();
         screamDetection.analyser.fftSize = 2048;
         screamDetection.analyser.smoothingTimeConstant = 0.8;
-
-        // Connect microphone to analyser
         screamDetection.microphone = screamDetection.audioContext.createMediaStreamSource(stream);
         screamDetection.microphone.connect(screamDetection.analyser);
-
-        // Start detection loop
         screamDetection.enabled = true;
         screamDetection.isListening = true;
         detectScreamLoop();
-
-        console.log('Scream detection started');
         showToast('Scream detection active', 'success');
         updateScreamDetectionUI();
-
         return true;
-
     } catch (error) {
-        console.error('Error starting scream detection:', error);
-
-        if (error.name === 'NotAllowedError') {
-            showToast('Microphone permission denied', 'error');
-        } else {
-            showToast('Error starting scream detection', 'error');
-        }
-
+        showToast(error.name === 'NotAllowedError' ? 'Microphone permission denied' : 'Error starting scream detection', 'error');
         return false;
     }
 }

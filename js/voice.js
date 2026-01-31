@@ -94,61 +94,33 @@ const LANGUAGE_NAMES = {
     'ar-SA': 'العربية (Arabic)'
 };
 
-// ===================================
-// INITIALIZATION
-// ===================================
-
 function initializeVoiceCommands() {
-    // Check if Web Speech API is supported
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        console.error('Speech recognition not supported in this browser');
-        showToast('Voice commands not supported in this browser', 'error');
+        showToast('Voice commands not supported', 'error');
         return false;
     }
-
-    // Get supported languages
     voiceRecognition.supportedLanguages = Object.keys(HELP_KEYWORDS);
-
-    // Load saved language preference
     loadVoiceSettings();
-
-    // Setup recognition
     setupSpeechRecognition();
-
-    console.log('Voice commands initialized');
-    console.log(`Supported languages: ${voiceRecognition.supportedLanguages.length}`);
-
     return true;
 }
 
-// ===================================
-// SPEECH RECOGNITION SETUP
-// ===================================
-
 function setupSpeechRecognition() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-        console.error('SpeechRecognition not available');
-        return;
-    }
+    if (!SpeechRecognition) return;
 
     voiceRecognition.recognition = new SpeechRecognition();
-
-    // Configure recognition
-    voiceRecognition.recognition.continuous = true; // Keep listening
-    voiceRecognition.recognition.interimResults = false; // Only final results
-    voiceRecognition.recognition.maxAlternatives = 3; // Get top 3 alternatives
-    voiceRecognition.recognition.lang = voiceRecognition.language;
-
-    // Event handlers
-    voiceRecognition.recognition.onstart = handleRecognitionStart;
-    voiceRecognition.recognition.onend = handleRecognitionEnd;
-    voiceRecognition.recognition.onresult = handleRecognitionResult;
-    voiceRecognition.recognition.onerror = handleRecognitionError;
-    voiceRecognition.recognition.onnomatch = handleNoMatch;
-
-    console.log('Speech recognition configured');
+    Object.assign(voiceRecognition.recognition, {
+        continuous: true,
+        interimResults: false,
+        maxAlternatives: 3,
+        lang: voiceRecognition.language,
+        onstart: handleRecognitionStart,
+        onend: handleRecognitionEnd,
+        onresult: handleRecognitionResult,
+        onerror: handleRecognitionError,
+        onnomatch: handleNoMatch
+    });
 }
 
 // ===================================

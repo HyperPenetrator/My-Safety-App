@@ -52,24 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function initializeDashboard() {
     try {
-        // Load user data
         await loadUserData();
-
-        // Setup navigation
         setupNavigation();
-
-        // Setup event listeners
         setupEventListeners();
-
-        // Load saved data
         await loadSavedData();
-
-        // Update UI
         updateDashboardStats();
-
-        console.log('Dashboard initialized successfully');
     } catch (error) {
-        console.error('Error initializing dashboard:', error);
         showToast('Error loading dashboard', 'error');
     }
 }
