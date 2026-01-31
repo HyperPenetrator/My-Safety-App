@@ -1,0 +1,30 @@
+{
+  "name": "my_safety",
+  "version": "1.0.0",
+  "description": "[![Netlify Status](https://api.netlify.com/api/v1/badges/536df11d-2485-4f2a-b9c4-42e04c10bbc6/deploy-status)](https://app.netlify.com/projects/my-safety-codecraft/deploys)\r ### For Broke Boiz (100% FREE Deployment)",
+  "main": "firebase-config.js",
+  "scripts": {
+    "build": "echo 'No build step required for static site'",
+    "sync": "npx cap sync",
+    "open:android": "npx cap open android"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HyperPenetrator/My-Safety-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HyperPenetrator/My-Safety-App/issues"
+  },
+  "homepage": "https://github.com/HyperPenetrator/My-Safety-App#readme",
+  "dependencies": {
+    "@capacitor/core": "^8.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.0.2",
+    "@capacitor/cli": "^8.0.2"
+  }
+}
