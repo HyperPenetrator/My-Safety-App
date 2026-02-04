@@ -15,11 +15,25 @@ class EmergencyCallSystem {
         try {
             const user = firebase.auth().currentUser;
             if (!user) {
-                console.warn('No user authenticated');
+                console.warn('⚠️ No user authenticated - contacts cannot be loaded');
+                this.contacts = [];
                 return [];
             }
 
             const db = firebase.firestore();
+
+            // Check if offline
+            const isOffline = !navigator.onLine;
+            if (isOffline) {
+                console.warn('⚠️ Device is offline - using cached contacts if available');
+                // Try to get from local cache
+                const cachedContacts = this.getFromLocalCache();
+                if (cachedContacts.length > 0) {
+                    this.contacts = cachedContacts;
+                    return this.contacts;
+                }
+            }
+
             // Read from array field instead of subcollection
             const userDoc = await db.collection('users').doc(user.uid).get();
 
@@ -27,6 +41,10 @@ class EmergencyCallSystem {
                 const contacts = userDoc.data().emergencyContacts;
                 // Take first 3 contacts
                 this.contacts = contacts.slice(0, 3);
+
+                // Cache for offline use
+                this.saveToLocalCache(this.contacts);
+
                 console.log(`✅ Loaded ${this.contacts.length} emergency contacts:`, this.contacts.map(c => c.name));
                 return this.contacts;
             } else {
@@ -35,7 +53,36 @@ class EmergencyCallSystem {
                 return [];
             }
         } catch (error) {
-            console.error('Error loading contacts:', error);
+            console.error('❌ Error loading contacts:', error.message);
+
+            // Try local cache as fallback
+            const cachedContacts = this.getFromLocalCache();
+            if (cachedContacts.length > 0) {
+                console.log('✓ Using cached contacts from previous session');
+                this.contacts = cachedContacts;
+                return this.contacts;
+            }
+
+            this.contacts = [];
+            return [];
+        }
+    }
+
+    // Cache management for offline support
+    saveToLocalCache(contacts) {
+        try {
+            localStorage.setItem('mysafety_cached_contacts', JSON.stringify(contacts));
+        } catch (e) {
+            console.warn('Could not cache contacts:', e);
+        }
+    }
+
+    getFromLocalCache() {
+        try {
+            const cached = localStorage.getItem('mysafety_cached_contacts');
+            return cached ? JSON.parse(cached) : [];
+        } catch (e) {
+            console.warn('Could not retrieve cached contacts:', e);
             return [];
         }
     }

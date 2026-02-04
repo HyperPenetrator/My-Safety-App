@@ -1,0 +1,187 @@
+/* ===================================
+   FLUID SCALING - UNIFIED UX PARITY
+   =================================== */
+
+:root {
+    /* Fluid Typography */
+    --fluid-base: clamp(16px, 1rem + 0.5vw, 22px);
+    
+    /* Fluid Spacing */
+    --spacing-xs: clamp(0.25rem, 0.5vw, 0.5rem);
+    --spacing-sm: clamp(0.5rem, 1vw, 1rem);
+    --spacing-md: clamp(1rem, 2vw, 1.5rem);
+    --spacing-lg: clamp(1.5rem, 3vw, 2.5rem);
+    --spacing-xl: clamp(2rem, 4vw, 4rem);
+    
+    /* Fluid Container */
+    --container-width: clamp(375px, 90vw, 1200px);
+    --container-max: 1200px;
+    
+    /* Fluid Border Radius */
+    --radius-sm: clamp(8px, 1vw, 12px);
+    --radius-md: clamp(12px, 1.5vw, 20px);
+    --radius-lg: clamp(16px, 2vw, 24px);
+    
+    /* Fluid Font Sizes */
+    --font-xs: clamp(0.75rem, 0.8rem + 0.2vw, 0.9rem);
+    --font-sm: clamp(0.85rem, 0.9rem + 0.2vw, 1rem);
+    --font-base: clamp(1rem, 1rem + 0.2vw, 1.1rem);
+    --font-md: clamp(1.1rem, 1.2rem + 0.3vw, 1.3rem);
+    --font-lg: clamp(1.3rem, 1.5rem + 0.5vw, 1.8rem);
+    --font-xl: clamp(1.8rem, 2rem + 0.8vw, 2.5rem);
+    --font-2xl: clamp(2.5rem, 3rem + 1vw, 4rem);
+}
+
+/* Apply fluid base font size */
+html {
+    font-size: var(--fluid-base);
+}
+
+/* Fluid Container for Main Content */
+.mobile-main {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: var(--spacing-md);
+}
+
+/* Fluid Header */
+.mobile-header {
+    padding: var(--spacing-md) var(--spacing-md);
+}
+
+.header-content {
+    max-width: var(--container-width);
+    margin: 0 auto;
+}
+
+/* Fluid SOS Button */
+.sos-button {
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    gap: var(--spacing-md);
+}
+
+.sos-icon {
+    font-size: var(--font-2xl);
+}
+
+.sos-text h2 {
+    font-size: var(--font-xl);
+}
+
+.sos-text p {
+    font-size: var(--font-base);
+}
+
+/* Fluid Cards */
+.quick-contacts,
+.safety-status {
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.quick-contacts h3 {
+    font-size: var(--font-md);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Fluid Contact Cards */
+.contact-card {
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    gap: var(--spacing-sm);
+}
+
+.contact-avatar {
+    width: clamp(45px, 8vw, 60px);
+    height: clamp(45px, 8vw, 60px);
+    font-size: var(--font-lg);
+}
+
+.contact-info h4 {
+    font-size: var(--font-md);
+}
+
+.contact-info p {
+    font-size: var(--font-sm);
+}
+
+/* Fluid Action Cards */
+.action-card {
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-md) var(--spacing-sm);
+}
+
+.action-icon {
+    font-size: var(--font-xl);
+}
+
+.action-text h4 {
+    font-size: var(--font-base);
+}
+
+.action-text p {
+    font-size: var(--font-sm);
+}
+
+/* Fluid Bottom Navigation */
+.bottom-nav {
+    padding: var(--spacing-sm) 0;
+}
+
+.nav-item {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    gap: var(--spacing-xs);
+}
+
+.nav-item svg {
+    width: clamp(22px, 4vw, 28px);
+    height: clamp(22px, 4vw, 28px);
+}
+
+.nav-item span {
+    font-size: var(--font-xs);
+}
+
+/* Desktop Enhancements (No Layout Shift) */
+@media (min-width: 768px) {
+    /* Slightly larger touch targets on desktop */
+    .nav-item {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    /* Add hover states (visual only, no layout change) */
+    .sos-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(255, 65, 108, 0.5);
+    }
+    
+    .contact-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .action-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .nav-item:hover {
+        color: #667eea;
+    }
+    
+    /* Cursor changes */
+    .sos-button,
+    .contact-card,
+    .action-card,
+    .nav-item,
+    .menu-btn {
+        cursor: pointer;
+    }
+}
+
+/* Prevent body overflow on larger screens */
+body {
+    padding-bottom: clamp(70px, 10vh, 90px);
+}

@@ -98,7 +98,9 @@ function setupEventListeners() {
     // Quick Actions
     const permissionsCard = document.getElementById('permissionsCard');
     if (permissionsCard) {
-        permissionsCard.addEventListener('click', () => showSection('permissions'));
+        permissionsCard.addEventListener('click', () => {
+            window.location.href = 'permissions.html';
+        });
     }
 
     const locationCard = document.getElementById('locationCard');
@@ -266,13 +268,50 @@ function checkAuthStatus() {
 async function loadUserData(user) {
     const db = firebase.firestore();
     try {
+        // Check connectivity first
+        if (!navigator.onLine) {
+            console.warn('⚠️ Device is offline - using cached data if available');
+            loadCachedUserData();
+            return;
+        }
+
         const doc = await db.collection('users').doc(user.uid).get();
         if (doc.exists) {
             const data = doc.data();
             updateUIWithUserData(data);
+            // Cache for offline use
+            cacheUserData(data);
+        } else {
+            // Try cached data
+            loadCachedUserData();
         }
     } catch (error) {
-        console.error("Error loading user data:", error);
+        console.error("❌ Error loading user data:", error.message);
+        // Fallback to cached data
+        loadCachedUserData();
+    }
+}
+
+function cacheUserData(data) {
+    try {
+        localStorage.setItem('mysafety_cached_userdata', JSON.stringify(data));
+    } catch (e) {
+        console.warn('Could not cache user data');
+    }
+}
+
+function loadCachedUserData() {
+    try {
+        const cached = localStorage.getItem('mysafety_cached_userdata');
+        if (cached) {
+            const data = JSON.parse(cached);
+            updateUIWithUserData(data);
+            console.log('✓ Using cached user data');
+        } else {
+            console.warn('No cached data available');
+        }
+    } catch (e) {
+        console.warn('Error loading cached data');
     }
 }
 
