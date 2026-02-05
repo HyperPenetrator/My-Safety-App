@@ -140,10 +140,8 @@ class PermissionManager {
             if (permission === 'granted') {
                 this.showToast('✅ Notification access granted', 'success');
 
-                // Show test notification
                 new Notification('My Safety', {
                     body: 'Notifications enabled successfully!',
-                    icon: '🛡️',
                     badge: '🛡️'
                 });
             } else {
@@ -266,6 +264,7 @@ class PermissionManager {
     updateOverviewStats() {
         const locationStatus = document.getElementById('locationStatus');
         const microphoneStatus = document.getElementById('microphoneStatus');
+        const permissionCount = document.getElementById('permissionCount');
 
         if (locationStatus) {
             locationStatus.textContent = this.permissions.location.granted ? 'Granted ✓' : 'Not Set';
@@ -275,6 +274,11 @@ class PermissionManager {
         if (microphoneStatus) {
             microphoneStatus.textContent = this.permissions.microphone.granted ? 'Granted ✓' : 'Not Set';
             microphoneStatus.style.color = this.permissions.microphone.granted ? '#4CAF50' : '#ff9800';
+        }
+
+        if (permissionCount) {
+            const stats = this.getPermissionSummary();
+            permissionCount.textContent = `${stats.granted}/${stats.total} granted`;
         }
     }
 

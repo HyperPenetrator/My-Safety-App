@@ -15,8 +15,12 @@ function initializeDashboard() {
     // Hide all sections except home
     showSection('home');
 
-    // Update permission counts
-    updateStats();
+    // Update permission counts (wait for manager)
+    if (window.permissionManager) {
+        updateStats();
+    } else {
+        setTimeout(updateStats, 1000);
+    }
 }
 
 function setupEventListeners() {
