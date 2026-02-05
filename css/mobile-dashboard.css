@@ -1,6 +1,30 @@
 /* ===================================
-   MOBILE DASHBOARD - MY SAFETY V2
+   THEME: COMMUNITY & REPORT (My Safety V2)
+   STYLE: Clean, Feed-Based, Women's Safety Purple
    =================================== */
+
+:root {
+    /* Core Colors */
+    --bg-body: #F9FAFB;
+    --bg-surface: #FFFFFF;
+    --primary-purple: #7C3AED;
+    /* Violet 600 */
+    --primary-light: #DDD6FE;
+    /* Violet 200 */
+    --primary-dark: #5B21B6;
+    /* Violet 800 */
+    --text-main: #111827;
+    /* Gray 900 */
+    --text-muted: #6B7280;
+    /* Gray 500 */
+    --border-color: #E5E7EB;
+    /* Gray 200 */
+
+    /* Functional Colors */
+    --danger-red: #EF4444;
+    --success-green: #10B981;
+    --warning-orange: #F59E0B;
+}
 
 * {
     margin: 0;
@@ -10,18 +34,22 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-color: var(--bg-body);
+    color: var(--text-main);
     min-height: 100vh;
-    padding-bottom: 70px;
+    padding-bottom: 80px;
+    /* Space for bottom nav */
     overflow-x: hidden;
+    line-height: 1.5;
 }
 
-/* Mobile Header */
+/* ===================================
+   HEADER: CLEAN NEWS FEED STYLE
+   =================================== */
 .mobile-header {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: var(--bg-surface);
     padding: 1rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -36,109 +64,120 @@ body {
 }
 
 .logo {
-    font-size: 2rem;
+    font-size: 1.75rem;
 }
 
-.mobile-header h1 {
-    font-size: 1.5rem;
-    color: #333;
-    flex: 1;
-    margin-left: 0.5rem;
+.header-titles h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.025em;
 }
 
-.mobile-header h1 span {
-    color: #667eea;
+.header-titles h1 span {
+    color: var(--primary-purple);
 }
 
 .menu-btn {
-    background: none;
-    border: none;
+    background: var(--bg-body);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     padding: 0.5rem;
     cursor: pointer;
+    transition: all 0.2s;
 }
 
-.menu-btn svg {
-    width: 24px;
-    height: 24px;
-    stroke: #333;
+.menu-btn:active {
+    background: var(--primary-light);
 }
 
-/* Main Content */
+/* ===================================
+   MAIN FEED LAYOUT
+   =================================== */
 .mobile-main {
     max-width: 600px;
     margin: 0 auto;
     padding: 1rem;
 }
 
-/* SOS Button */
-.sos-section {
-    margin-bottom: 1.5rem;
+/* Common Card Style (Feed Item Look) */
+.quick-contacts,
+.safety-status,
+.quick-actions,
+.sos-section,
+.tool-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow */
 }
 
+/* ===================================
+   SOS SECTION: PROMINENT ALERT
+   =================================== */
 .sos-button {
     width: 100%;
-    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
-    border: none;
-    border-radius: 20px;
-    padding: 2rem;
+    background: #FEF2F2;
+    /* Very light red bg */
+    border: 2px solid #FECACA;
+    /* Red border */
+    border-radius: 16px;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
     gap: 1.5rem;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(255, 65, 108, 0.4);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .sos-button:active {
+    background: #FEE2E2;
     transform: scale(0.98);
 }
 
 .sos-icon {
-    font-size: 4rem;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.1);
-    }
+    font-size: 3rem;
+    background: #EF4444;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .sos-text {
     text-align: left;
-    color: white;
 }
 
 .sos-text h2 {
-    font-size: 1.8rem;
+    color: #991B1B;
+    /* Dark Red */
+    font-size: 1.5rem;
     font-weight: 800;
     margin-bottom: 0.25rem;
 }
 
 .sos-text p {
-    font-size: 1rem;
-    opacity: 0.9;
+    color: #B91C1C;
+    font-size: 0.875rem;
+    font-weight: 500;
 }
 
-/* Quick Contacts */
-.quick-contacts {
-    background: white;
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
+/* ===================================
+   QUICK CONTACTS (Horizontal List)
+   =================================== */
 .quick-contacts h3 {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     margin-bottom: 1rem;
-    color: #333;
 }
 
 .contacts-grid {
@@ -150,75 +189,60 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bg-body);
+    /* Grey background */
     padding: 1rem;
-    border-radius: 15px;
-    color: white;
-    border: none;
+    border-radius: 12px;
+    border: 1px solid transparent;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s;
 }
 
 .contact-card:active {
-    transform: scale(0.98);
+    border-color: var(--primary-purple);
+    background: var(--primary-light);
 }
 
 .contact-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    /* iOS style rounded rect */
+    background: var(--primary-purple);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-}
-
-.contact-info {
-    flex: 1;
-    text-align: left;
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 .contact-info h4 {
-    font-size: 1.1rem;
-    margin-bottom: 0.25rem;
+    color: var(--text-main);
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .contact-info p {
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
-
-.call-icon {
-    font-size: 1.5rem;
-}
-
-.empty-contacts {
-    text-align: center;
-    padding: 2rem 1rem;
-    color: #666;
+    color: var(--text-muted);
+    font-size: 0.875rem;
 }
 
 .add-contact-btn {
-    margin-top: 1rem;
-    padding: 0.75rem 2rem;
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 50px;
+    width: 100%;
+    padding: 1rem;
+    background: white;
+    border: 1px dashed var(--primary-purple);
+    color: var(--primary-purple);
+    border-radius: 12px;
     font-weight: 600;
+    margin-top: 0.5rem;
     cursor: pointer;
 }
 
-/* Safety Status */
-.safety-status {
-    background: white;
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
+/* ===================================
+   SAFETY STATUS (Clean Toggle)
+   =================================== */
 .status-card {
     display: flex;
     align-items: center;
@@ -226,35 +250,28 @@ body {
 }
 
 .status-icon {
-    font-size: 2.5rem;
-}
-
-.status-info {
-    flex: 1;
+    font-size: 2rem;
+    color: var(--primary-purple);
+    background: var(--primary-light);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
 }
 
 .status-info h4 {
-    font-size: 1.1rem;
-    color: #333;
-    margin-bottom: 0.25rem;
+    color: var(--text-main);
+    font-size: 1rem;
+    font-weight: 600;
 }
 
-.status-info p {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-/* Toggle Switch */
+/* Toggle Switch - iOS Style */
 .toggle-switch {
     position: relative;
-    width: 60px;
-    height: 34px;
-}
-
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+    width: 52px;
+    height: 32px;
 }
 
 .toggle-slider {
@@ -264,81 +281,90 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
+    background-color: var(--border-color);
+    transition: 0.3s;
     border-radius: 34px;
 }
 
 .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 24px;
+    width: 24px;
     left: 4px;
     bottom: 4px;
     background-color: white;
-    transition: 0.4s;
+    transition: 0.3s;
     border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.toggle-switch input:checked+.toggle-slider {
-    background-color: #4CAF50;
+input:checked+.toggle-slider {
+    background-color: var(--success-green);
 }
 
-.toggle-switch input:checked+.toggle-slider:before {
-    transform: translateX(26px);
+input:checked+.toggle-slider:before {
+    transform: translateX(20px);
 }
 
-/* Quick Actions */
+/* ===================================
+   FEED ACTIONS (Grid)
+   =================================== */
 .quick-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
 }
 
 .action-card {
-    background: white;
-    border: none;
-    border-radius: 15px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
     padding: 1.5rem 1rem;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.action-card:active {
-    transform: scale(0.95);
+    text-align: left;
+    /* Align left for form feeling */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .action-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+    background: var(--bg-body);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
 }
 
 .action-text h4 {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 0.25rem;
+    color: var(--text-main);
+    font-weight: 600;
+    margin-bottom: 2px;
 }
 
-.action-text p {
-    font-size: 0.85rem;
-    color: #666;
-}
-
-/* Bottom Navigation */
+/* ===================================
+   BOTTOM NAVIGATION (Clean White)
+   =================================== */
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
     display: flex;
     justify-content: space-around;
     padding: 0.75rem 0;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
     z-index: 100;
 }
 
@@ -348,37 +374,38 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
+    gap: 4px;
+    color: var(--text-muted);
     cursor: pointer;
-    padding: 0.5rem 1rem;
-    color: #999;
-    transition: all 0.3s ease;
+}
+
+.nav-item.active {
+    color: var(--primary-purple);
 }
 
 .nav-item svg {
     width: 24px;
     height: 24px;
-    stroke: currentColor;
+    stroke-width: 2px;
 }
 
 .nav-item span {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 500;
 }
 
-.nav-item.active {
-    color: #667eea;
-}
-
-/* Side Menu */
+/* ===================================
+   SIDE MENU
+   =================================== */
 .side-menu {
     position: fixed;
     top: 0;
     right: -300px;
     width: 300px;
     height: 100vh;
-    background: white;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-    transition: right 0.3s ease;
+    background: var(--bg-surface);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
 }
 
@@ -387,50 +414,55 @@ body {
 }
 
 .menu-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid #eee;
-}
-
-.menu-header h3 {
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.close-menu {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
-}
-
-.menu-content {
-    padding: 1rem;
 }
 
 .menu-item {
     width: 100%;
+    padding: 1rem;
     background: none;
     border: none;
-    padding: 1rem;
     text-align: left;
+    font-size: 1rem;
+    color: var(--text-main);
     display: flex;
     align-items: center;
     gap: 1rem;
     cursor: pointer;
-    border-radius: 10px;
-    transition: background 0.3s ease;
-    font-size: 1rem;
-    color: #333;
 }
 
 .menu-item:hover {
-    background: #f5f5f5;
+    background: var(--bg-body);
 }
 
-.menu-item span:first-child {
-    font-size: 1.5rem;
+/* ===================================
+   DESKTOP TWEAKS
+   =================================== */
+@media (min-width: 768px) {
+    .mobile-main {
+        max-width: 800px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .sos-section {
+        grid-column: 1 / -1;
+    }
+
+    /* Left col */
+    .quick-contacts,
+    .safety-status {
+        margin-bottom: 0;
+    }
+
+    /* Right col */
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
 }
