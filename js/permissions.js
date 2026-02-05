@@ -266,6 +266,10 @@ class PermissionManager {
         const microphoneStatus = document.getElementById('microphoneStatus');
         const permissionCount = document.getElementById('permissionCount');
 
+        // Context: Permissions Page (Progress Bar)
+        const progressFill = document.getElementById('progressFill');
+        const statsText = document.getElementById('statsText');
+
         if (locationStatus) {
             locationStatus.textContent = this.permissions.location.granted ? 'Granted ✓' : 'Not Set';
             locationStatus.style.color = this.permissions.location.granted ? '#4CAF50' : '#ff9800';
@@ -276,9 +280,18 @@ class PermissionManager {
             microphoneStatus.style.color = this.permissions.microphone.granted ? '#4CAF50' : '#ff9800';
         }
 
+        // Context: Dashboard
         if (permissionCount) {
             const stats = this.getPermissionSummary();
             permissionCount.textContent = `${stats.granted}/${stats.total} granted`;
+        }
+
+        // Context: Permissions Page
+        if (progressFill && statsText) {
+            const stats = this.getPermissionSummary();
+            const percentage = (stats.granted / stats.total) * 100;
+            progressFill.style.width = `${percentage}%`;
+            statsText.textContent = `${stats.granted} of ${stats.total} permissions granted`;
         }
     }
 
